@@ -2,7 +2,24 @@
 name = "pyla"
 version = "0.1.0"
 edition = "2021"
+authors = ["Sandeep Virdi code.monkey.1982@gmail.com"]
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "pyla"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+memmap2 = "0.5.3"
+bytes = "1"
+crossbeam = "0.8"
+xxhash-rust = "0.8.4"
+
+[dependencies.crossbeam-skiplist]
+git = "https://github.com/crossbeam-rs/crossbeam.git"
+tag = "crossbeam-utils-0.8.8"
+package = "crossbeam-skiplist"
