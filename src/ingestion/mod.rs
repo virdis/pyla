@@ -1,6 +1,5 @@
 mod pyla_internals;
 mod pyla_in_memory_map;
-mod pyla_map;
 
 pub use pyla_internals::PylaEntry; 
 pub use pyla_internals::PylaId;
