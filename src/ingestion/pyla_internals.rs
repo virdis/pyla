@@ -11,11 +11,11 @@ pub struct PylaEntry<'a> {
 /// to get around it, we hash the key to generate a fixed length `id`.
 /// 
 /// We are using [xxHash] https://crates.io/crates/xxhash-rust. 
-#[derive(PartialEq, Eq, PartialOrd, Debug)]
-pub struct PylaId<'a>(pub &'a u64);
+#[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
+pub struct PylaId(u64);
 
-impl<'a> PylaId<'a> {
-  pub fn new(id: &'a u64) -> PylaId<'a> {
-    PylaId(&id)
+impl PylaId {
+  pub fn new(id: u64) -> PylaId {
+    PylaId(id)
   }
 }
