@@ -1,28 +1,43 @@
-use std::collections::btree_map::Values;
+use std::{mem, ascii::AsciiExt, str::FromStr};
 
 use bytes::{Bytes, BytesMut, BufMut};
 
+const SIZE_OF_U32_IN_BYTES: usize = mem::size_of::<i32>();
+const PYLA_KEY_ERROR: &str = "Key cannnot be empty";
+const PYLA_VALUE_ERROR: &str = "Value cannot be emtpy";
+
 #[derive(Debug, Clone)]
-pub struct PylaEntry {
-  pub underlying: Bytes
+pub struct PylaEntry{
+  pub underlying: Bytes // change this and use serde
 }
 
 impl PylaEntry {
-  pub fn new(key: &[u8], value: &[u8]) -> PylaEntry {
+  pub fn new(key: &[u8], value: &[u8]) -> Result<PylaEntry, PylaEntryError> {
+    if key.is_empty() {
+      return Err(PylaEntryError::KeyError(String::from(PYLA_KEY_ERROR)))
+    }
+     if value.is_empty() {
+      return Err(PylaEntryError::KeyError(String::from(PYLA_VALUE_ERROR)))
+    }
+    
     let key_size = key.len() as u32;
     let value_size = value.len() as u32;
-    let total_size = u64::BITS + key_size + u64::BITS + value_size; // keysize:actual_key:valuesize:actual_value
-    let mut buf =
-      BytesMut::with_capacity(total_size as usize);
+    let total_size: usize = SIZE_OF_U32_IN_BYTES + (key_size as usize) + SIZE_OF_U32_IN_BYTES + (value_size as usize);
+    let mut buf = BytesMut::with_capacity(total_size);
       // TODO - Endianess 
-
     buf.put_u32(key_size);
-    buf.put_slice(key);
     buf.put_u32(value_size);
+    buf.put_slice(key);
     buf.put_slice(value);
-    PylaEntry { underlying: buf.freeze() }
+    Ok(PylaEntry { underlying: buf.freeze() })
   }    
 }
+
+pub enum PylaEntryError {
+  KeyError(String),
+  ValueError(String),
+}
+
 
 /// PylaId represents a wrapper (new-type) around `u64` type.
 ///
