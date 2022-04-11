@@ -33,6 +33,7 @@ impl PylaEntry {
   }    
 }
 
+#[derive(Debug)]
 pub enum PylaEntryError {
   KeyError(String),
   ValueError(String),

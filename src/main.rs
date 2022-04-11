@@ -1,5 +1,3 @@
-use std::{borrow::BorrowMut, io};
-
 use bytes::{Buf, BufMut};
 use pyla::ingestion;
 use ingestion::*;
@@ -14,9 +12,9 @@ fn main() {
     println!("Test Comparison: {}", p3 == p3);
     let key = "key1";
     let value = "value1";
-    let mut pentry1 = PylaEntry::new(key.as_bytes(), value.as_bytes());
+    let mut pentry1: Result<PylaEntry, PylaEntryError> = PylaEntry::new(key.as_bytes(),value.as_bytes());
    
-    let mut entry_bytes = pentry1.underlying;
+    let mut entry_bytes = pentry1.expect("Failed to create Pyla Entry").underlying;
     
     let k1_size: usize = entry_bytes.get_i32() as usize;
     let value1_size: usize = entry_bytes.get_i32() as usize;

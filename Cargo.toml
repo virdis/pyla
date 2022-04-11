@@ -18,8 +18,13 @@ memmap2 = "0.5.3"
 bytes = "1"
 crossbeam = "0.8"
 xxhash-rust = "0.8.4"
+tokio = { version = "1.17.0", features = ["full"] }
+config = "0.13"
+serde = { version = "1.0.136", feature = ["derive"] }
+
 
 [dependencies.crossbeam-skiplist]
 git = "https://github.com/crossbeam-rs/crossbeam.git"
 tag = "crossbeam-utils-0.8.8"
 package = "crossbeam-skiplist"
+
