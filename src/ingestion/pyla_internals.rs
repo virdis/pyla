@@ -8,7 +8,7 @@ const PYLA_VALUE_ERROR: &str = "Value cannot be emtpy";
 
 #[derive(Debug, Clone)]
 pub struct PylaEntry{
-  pub underlying: Bytes // change this and use serde
+  pub underlying: Bytes // change visibility
 }
 
 impl PylaEntry {
@@ -30,8 +30,13 @@ impl PylaEntry {
     buf.put_slice(key);
     buf.put_slice(value);
     Ok(PylaEntry { underlying: buf.freeze() })
-  }    
+  } 
+  
+  pub fn get_size(&self) -> usize {
+    self.underlying.len()
+  }
 }
+
 
 #[derive(Debug)]
 pub enum PylaEntryError {
@@ -56,6 +61,11 @@ impl PylaId {
   }
 }
 
+impl From<&PylaId> for u64 {
+    fn from(input: &PylaId) -> Self {
+        input.0
+    }
+}
 pub struct NotFound();
 
 impl NotFound {

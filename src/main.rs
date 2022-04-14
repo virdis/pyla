@@ -1,6 +1,8 @@
 use bytes::{Buf, BufMut};
 use pyla::ingestion;
 use ingestion::*;
+use pyla::configuration::get_configuration;
+
 fn main() {
     println!("Hello, world!");
     let p1 = PylaId::new(1);
@@ -44,5 +46,8 @@ fn main() {
     //io::copy(&mut p1_reader, &mut k1_buffer);
 
     println!("Key Bytes : {:?} Value Bytes: {:?}", &key.as_bytes(), value.as_bytes());
+
+    let config = get_configuration();
+    println!("Config: {:?}", config);
     
 }
