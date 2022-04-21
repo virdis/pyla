@@ -1,6 +1,8 @@
-use std::{mem, ascii::AsciiExt, str::FromStr};
+use std::{mem, sync::Arc};
 
 use bytes::{Bytes, BytesMut, BufMut};
+use crossbeam_skiplist::{SkipMap};
+
 
 const SIZE_OF_U32_IN_BYTES: usize = mem::size_of::<i32>();
 const PYLA_KEY_ERROR: &str = "Key cannnot be empty";
@@ -72,4 +74,10 @@ impl NotFound {
     pub fn new() -> NotFound {
       NotFound()
     }
+}
+
+#[derive(Debug)]
+pub enum PylaMapState {
+    WriteToDisk(arc_swap::Guard<Arc<SkipMap<PylaId, PylaEntry>>>),
+    WriteToMap,   
 }

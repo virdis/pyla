@@ -5,3 +5,4 @@ pub use pyla_internals::PylaEntry;
 pub use pyla_internals::PylaId;
 pub use pyla_internals::PylaEntryError;
 pub use pyla_in_memory_map::PylaInMemoryMap;
+pub use pyla_internals::PylaMapState;
